@@ -1,4 +1,4 @@
-from flask import Flask, url_for, render_template
+from flask import Flask, url_for, render_template, request
 
 app = Flask(__name__)
 
@@ -39,6 +39,18 @@ def promotion_image():
         html = html_stream.read()
 
     html = html.replace("{{ url }}", f"{url_for('static', filename='img/mars.jpg')}")
+    return html
+
+
+@app.route('/astronaut_selection', methods=['GET', 'POST'])
+def astronaut_selection():
+    if request.method == "GET":
+        with open('templates/astronaut_selection_design.html') as html_stream:
+            html = html_stream.read()
+    elif request.method == "POST":
+        data = request.form
+        print(data)
+        return "Форма успешно отправлена!"
     return html
 
 
