@@ -54,5 +54,13 @@ def astronaut_selection():
     return html
 
 
+@app.route('/choice/<planet_name>')
+def choice(planet_name):
+    with open('templates/choice_design.html') as html_stream:
+        html = html_stream.read()
+    html = html.replace("{{ planet_name }}", planet_name)
+    return html
+
+
 if __name__ == '__main__':
     app.run(host='127.0.0.1', port=8090)
