@@ -90,5 +90,10 @@ def load_photo():
     return render_template("load_photo.html", photo_url=photo_url)
 
 
+@app.route('/carousel')
+def carousel():
+    return render_template('carousel.html')
+
+
 if __name__ == '__main__':
     app.run(host='127.0.0.1', port=8090)
