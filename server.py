@@ -1,6 +1,10 @@
-from flask import Flask, url_for, render_template, request
+from flask import Flask, url_for, render_template, request, redirect
+import os
 
 app = Flask(__name__)
+
+UPLOAD_FOLDER = 'static/img'
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 
 @app.route('/')
@@ -71,6 +75,19 @@ def results(nickname, level, rating):
     html = html.replace("{{ level }}", str(level))
     html = html.replace("{{ rating }}", str(rating))
     return html
+
+
+@app.route("/load_photo", methods=["GET", "POST"])
+def load_photo():
+    photo_url = None
+    if request.method == "POST":
+        if "photo" in request.files:
+            photo = request.files["photo"]
+            if photo.filename != "":
+                file_path = os.path.join(app.config['UPLOAD_FOLDER'], photo.filename)
+                photo.save(file_path)
+                photo_url = url_for('static', filename=f'img/{photo.filename}')
+    return render_template("load_photo.html", photo_url=photo_url)
 
 
 if __name__ == '__main__':
