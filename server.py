@@ -62,5 +62,16 @@ def choice(planet_name):
     return html
 
 
+@app.route('/results/<nickname>/<int:level>/<float:rating>')
+def results(nickname, level, rating):
+    print(nickname, level, rating)
+    with open('templates/results_design.html') as html_stream:
+        html = html_stream.read()
+    html = html.replace("{{ nickname }}", nickname)
+    html = html.replace("{{ level }}", str(level))
+    html = html.replace("{{ rating }}", str(rating))
+    return html
+
+
 if __name__ == '__main__':
     app.run(host='127.0.0.1', port=8090)
